@@ -11527,7 +11527,7 @@
                                 // inside paintComponent method.
                                 canvas.$da.width = -1;
 
-                                $this.paint(g, canvas);
+                                pkg.paintManager.paintComponent(g, canvas);
 
 								g.restore();
 							}
@@ -11537,77 +11537,6 @@
 							}
 						}
 					});
-				}
-			};
-
-			this.paint = function (g, c) {
-				var dw = c.width,
-					dh = c.height,
-					ts = g.$states[g.$curState];
-
-				if (dw !== 0 &&
-					dh !== 0 &&
-					ts.width > 0 &&
-					ts.height > 0 &&
-					c.isVisible === true) {
-					if (c.isValid === false || c.isLayoutValid === false) {
-						try {
-						    c.validate();
-						}
-						catch (e) {
-						    throw e;
-						}
-					}
-
-					g.save();
-					g.translate(c.x, c.y);
-					g.clipRect(0, 0, dw, dh);
-
-					ts = g.$states[g.$curState];
-
-					var c_w = ts.width, c_h = ts.height;
-					if (c_w > 0 && c_h > 0) {
-						try {
-						    this.paintComponent(g, c);
-						}
-						catch (e) {
-						    throw e;
-						}
-
-						var count = c.kids.length, c_x = ts.x, c_y = ts.y;
-						for (var i = 0; i < count; i++) {
-							var kid = c.kids[i];
-							if (kid.isVisible === true) {
-								var kidX = kid.x,
-									kidY = kid.y,
-									kidXW = kidX + kid.width,
-									c_xw = c_x + c_w,
-									kidYH = kidY + kid.height,
-									c_yh = c_y + c_h,
-									iw = (kidXW < c_xw ? kidXW : c_xw) - (kidX > c_x ? kidX : c_x),
-									ih = (kidYH < c_yh ? kidYH : c_yh) - (kidY > c_y ? kidY : c_y);
-
-								if (iw > 0 && ih > 0) {
-									try {
-									    this.paint(g, kid);
-									}
-									catch (e) {
-									    throw e;
-									}
-								}
-							}
-						}
-						if (c.paintOnTop != null) {
-							try {
-							    c.paintOnTop(g);
-							}
-							catch (e) {
-								throw e;
-							}
-						}
-					}
-
-					g.restore();
 				}
 			};
 		}
@@ -11632,80 +11561,165 @@
 	pkg.PaintManImpl = Class(pkg.PaintManager, [
 		function $prototype() {
 			this.paintComponent = function (g, c) {
-                var b = c.bg != null && (c.parent == null || c.bg != c.parent.bg),
-                    borderPainted = false;
-
-                var x = 0,
-                    y = 0,
-                    w = c.width,
-                    h = c.height;
-
-                // if component defines shape and has update, [paint?] or background that
-                // differs from parent background try to apply the shape and than build
-                // clip from the applied shape
-                if (c.border != null && c.border.outline != null &&
-                    (b || c.update != null) &&
-                    c.border.outline(g, x, y, w, h, c)) {
-
-                    // The outline path will be the clipping path
-                    g.save();
-                    g.clip();
-
-                    if (b) c.bg.paint(g, x, y, w, h, c);
-                    if (c.update != null) {
-                        c.update(g);
+                var ts  = g.$states[g.$curState]; // current state including clip area
+                if (ts.width  > 0  && ts.height > 0  && c.isVisible === true) {
+                    // !!! TODO: WTF
+                    // calling setSize in the case of raster layout doesn't
+                    // cause hierarchy layout invalidation
+                    if (this.isLayoutValid === false) {
+                        this.validate();
                     }
 
-                    g.restore();
+                    var b = c.bg != null && (c.parent == null || c.bg != c.parent.bg),
+                        borderPainted = false;
 
-                    // Paint the border after the background is painted
-                    if (c.border.activeView == null ? c.border.width !== 0 : c.border.activeView.width !== 0) {
+                    var x = 0, y = 0, w = c.width, h = c.height;
+
+                    // if component defines shape and has update, [paint?] or background that
+                    // differs from parent background try to apply the shape and than build
+                    // clip from the applied shape
+                    if (c.border != null && c.border.outline != null &&
+                        (b || c.update != null) &&
+                        c.border.outline(g, x, y, w, h, c)) {
+
+                        // The outline path will be the clipping path
+                        g.save();
+                        g.clip();
+
+                        if (b) {
+                            c.bg.paint(g, x, y, w, h, c);
+                        }
+                        if (c.update != null) {
+                            c.update(g);
+                        }
+
+                        g.restore();
+
+                        // Paint the border after the background is painted
+                        if (c.border.activeView == null ? c.border.width !== 0 : c.border.activeView.width !== 0) {
+                            c.border.paint(g, x, y, w, h, c);
+                        }
+                        borderPainted = true;
+                    }
+
+                    else {
+                        if (b) {
+                            c.bg.paint(g, x, y, w, h, c);
+                        }
+                        if (c.update != null) {
+                            c.update(g);
+                        }
+                    }
+
+                    if (c.border != null && borderPainted == false && (c.border.activeView == null ? c.border.width !== 0 : c.border.activeView.width !== 0)) {
                         c.border.paint(g, x, y, w, h, c);
                     }
-                    borderPainted = true;
-                }
 
-                else {
-                    if (b) {
-                        c.bg.paint(g, x, y, w, h, c);
-                    }
-                    if (c.update != null) {
-                        c.update(g);
-                    }
-                }
+                    if (c.paint != null) {
+                        var left = c.getLeft(),
+                            top = c.getTop(),
+                            bottom = c.getBottom(),
+                            right = c.getRight();
 
-                if (c.border != null && borderPainted == false && (c.border.activeView == null ? c.border.width !== 0 : c.border.activeView.width !== 0)) {
-                    c.border.paint(g, x, y, w, h, c);
-                }
+                        if (left > 0 || right > 0 || top > 0 || bottom > 0) {
+                            var tsxx = ts.x + ts.width,
+                                tsyy = ts.y + ts.height,
+                                cright     = c.width - right,
+                                cbottom    = c.height - bottom,
+                                x1         = (ts.x > left ? ts.x : left), // max
+                                y1         = (ts.y > top  ? ts.y : top),  // max
+                                w1         = (tsxx < cright  ? tsxx : cright)  - x1, // min
+                                h1         = (tsyy < cbottom ? tsyy : cbottom) - y1; // min
 
-                if (c.paint != null) {
-                    var left = c.getLeft(),
-                        top = c.getTop(),
-                        bottom = c.getBottom(),
-                        right = c.getRight();
-
-                    if (left + right + top + bottom > 0) {
-                        var ts = g.$states[g.$curState];
-
-                        if (ts.width > 0 && ts.height > 0) {
-                            var cx = ts.x,
-                                cy = ts.y,
-                                x1 = (cx > left ? cx : left),
-                                y1 = (cy > top ? cy : top),
-                                cxcw = cx + ts.width,
-                                cych = cy + ts.height,
-                                cright = c.width - right,
-                                cbottom = c.height - bottom;
-
-                            g.save();
-                            g.clipRect(x1, y1, (cxcw < cright ? cxcw : cright) - x1,
-                                (cych < cbottom ? cych : cbottom) - y1);
+                            if (x1 !== ts.x || y1 !== ts.y || w1 !== ts.width || h1 !== ts.height) {
+                                g.save();
+                                g.clipRect(x1, y1, w1, h1);
+                                c.paint(g);
+                                this.paintChildComponents(g, c, false);
+                                g.restore();
+                            }
+                            else {
+                                // It has been checked that the optimization works for some components
+                                c.paint(g);
+                                this.paintChildComponents(g, c, true);
+                            }
+                        }
+                        else {
                             c.paint(g);
-                            g.restore();
+                            this.paintChildComponents(g, c, true);
                         }
                     }
                     else {
-                        c.paint(g);
+                        this.paintChildComponents(g, c, true);
+                    }
+
+                    if (c.paintOnTop !== undefined) {
+                        c.paintOnTop(g);
+                    }
+                }
+            };
+
+            /**
+             * Paint child components.
+             * @param  {CanvasRenderingContext2D} g a canvas 2D context
+             * @param {Boolean}  clipChild true if child components have to be clipped with
+             * the parent component paddings.
+             * @method paintChildComponents
+             */
+            this.paintChildComponents = function(g, c, clipChild) {
+                var ts = g.$states[g.$curState]; // current state including clip area
+
+                if (ts.width > 0 && ts.height > 0 && c.kids.length > 0) {
+                    var shouldClip = false,
+                        tsxx       = ts.x + ts.width,
+                        tsyy       = ts.y + ts.height;
+
+                    if (clipChild === true) {
+                        var left   = c.getLeft(),
+                            top    = c.getTop(),
+                            bottom = c.getBottom(),
+                            right  = c.getRight();
+
+                        if (left > 0 || right > 0 || top > 0 || bottom > 0) {
+                            var x1         = (ts.x > left ? ts.x : left), // max
+                                y1         = (ts.y > top  ? ts.y : top),  // max
+                                cright     = c.width - right,
+                                cbottom    = c.height - bottom,
+                                w1         = (tsxx < cright  ? tsxx : cright)  - x1, // min
+                                h1         = (tsyy < cbottom ? tsyy : cbottom) - y1; // min
+
+                            shouldClip = (x1 !== ts.x || y1 !== ts.y || w1 !== ts.width || h1 !== ts.height);
+
+                            if (shouldClip === true) {
+                                g.save();
+                                g.clipRect(x1, y1, w1, h1);
+                            }
+                        }
+                    }
+
+                    for(var i = 0; i < c.kids.length; i++) {
+                        var kid = c.kids[i];
+                        // ignore invisible components and components that declare own 2D context
+                        if (kid.isVisible === true && kid.$context === undefined) {
+                            // calculate if the given component area has intersection
+                            // with current clipping area
+                            var kidxx = kid.x + kid.width,
+                                kidyy = kid.y + kid.height,
+                                iw = (kidxx < tsxx ? kidxx : tsxx) - (kid.x > ts.x ? kid.x : ts.x),
+                                ih = (kidyy < tsyy ? kidyy : tsyy) - (kid.y > ts.y ? kid.y : ts.y);
+
+                            if (iw > 0 && ih > 0) {
+                                g.save();
+                                g.translate(kid.x, kid.y);
+                                g.clipRect(0, 0, kid.width, kid.height);
+                                this.paintComponent(g, kid);
+                                g.restore();
+                            }
+                        }
+                    }
+
+                    if (shouldClip === true) {
+                        g.restore();
                     }
                 }
             };

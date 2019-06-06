@@ -11472,12 +11472,17 @@
 							var g = canvas.$context;
 							g.save();
 
+							// if (!Number.isInteger(canvas.$da.x) || !Number.isInteger(canvas.$da.y) || !Number.isInteger(canvas.$da.width) || !Number.isInteger(canvas.$da.height)) {
+							//     console.log('somethings off...');
+                            // }
+
 							try {
                                 // check if the given canvas has transparent background
                                 // if it is true call clearRect method to clear dirty area
                                 // with transparent background, otherwise it will be cleaned
                                 // by filling the canvas with background later
 								if (canvas.bg == null || canvas.bg.isOpaque !== true) {
+                                // if (g.$scaleRatioIsInt === true && (canvas.bg == null || canvas.bg.isOpaque !== true)) {
 
                                     // Clear method can be applied to scaled (retina screens) canvas
                                     // The real cleaning location is calculated as x' = scaleX * x.

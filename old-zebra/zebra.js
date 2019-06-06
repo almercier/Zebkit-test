@@ -13923,8 +13923,9 @@
 
 				ctx.clipRect = function (x, y, w, h) {
 					var c = this.$states[this.$curState];
-					if (c.x != x || y != c.y || w != c.width || h != c.height) {
-						var xx = c.x, yy = c.y,
+					if (c.x !== x || y !== c.y || w !== c.width || h !== c.height) {
+						var xx = c.x,
+                            yy = c.y,
 							ww = c.width,
 							hh = c.height,
 							xw = x + w,
@@ -13937,7 +13938,7 @@
 						c.y = y > yy ? y : yy;
 						c.height = (yh < yyhh ? yh : yyhh) - c.y;
 
-						if (c.x != xx || yy != c.y || ww != c.width || hh != c.height) {
+						if (c.x !== xx || yy !== c.y || ww !== c.width || hh !== c.height) {
 							// begin path is very important to have proper clip area
 							this.beginPath();
 							this.rect(x, y, w, h);

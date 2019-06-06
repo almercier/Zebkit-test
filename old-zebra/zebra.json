@@ -1,0 +1,1391 @@
+{
+  "version": "02.2015",
+
+  "classAliases": {
+    "Picture": "zebra.ui.Picture",
+    "Border": "zebra.ui.Border",
+    "Dotted": "zebra.ui.Dotted",
+    "ViewSet": "zebra.ui.ViewSet",
+    "View": "zebra.ui.View",
+    "Gradient": "zebra.ui.Gradient",
+    "CompositeView": "zebra.ui.CompositeView",
+    "rgb": "zebra.util.rgb",
+    "Font": "zebra.ui.Font",
+    "FlowLayout": "zebra.layout.FlowLayout",
+    "BorderLayout": "zebra.layout.BorderLayout",
+    "ListLayout": "zebra.layout.ListLayout"
+  },
+
+  "doubleClickDelta": 400,
+  "dragDistanceDelta": 10,
+
+  "KeyEvent": {
+    "A": 65,
+    "B": 66,
+    "C": 67,
+    "D": 68,
+    "E": 69,
+    "F": 70,
+    "G": 71,
+    "H": 72,
+    "I": 73,
+    "J": 74,
+    "K": 75,
+    "L": 76,
+    "M": 77,
+    "N": 78,
+    "O": 79,
+    "P": 80,
+    "Q": 81,
+    "R": 82,
+    "S": 83,
+    "T": 84,
+    "U": 85,
+    "V": 86,
+    "W": 87,
+    "X": 88,
+    "Y": 89,
+    "Z": 90,
+    "0": 48,
+    "1": 49,
+    "2": 50,
+    "3": 51,
+    "4": 52,
+    "5": 53,
+    "6": 54,
+    "7": 55,
+    "8": 56,
+    "9": 57,
+    "F1": 112,
+    "F2": 113,
+    "F3": 114,
+    "F4": 115,
+    "F5": 116,
+    "F6": 117,
+    "F7": 118,
+    "F8": 119,
+    "F9": 120,
+    "F10": 121,
+    "F11": 122,
+    "F12": 123,
+    ",": 188,
+    ";": 186,
+    "'": 222,
+    "[": 219,
+    "]": 221,
+    "\\": 220,
+    "/": 191,
+    "FSLASH": 191,
+    "TANNERSCOMMENT": "CANNOT USE '.' IN KeyEvents IT WILL BREAK ZEBRA AND I HAVE NO IDEA WHY...TD",
+    "PERIOD": 190,
+    "ENTER": 13,
+    "ESCAPE": 27,
+    "SPACE": 32,
+    "DELETE": 46,
+    "BSPACE": 8,
+    "TAB": 9,
+    "INSERT": 45,
+    "LEFT": 37,
+    "RIGHT": 39,
+    "UP": 38,
+    "DOWN": 40,
+    "HOME": 36,
+    "END": 35,
+    "PAGEUP": 33,
+    "PAGEDOWN": 34,
+    "CMD": { ".expr": "zebra.isFF?224:91" },
+    "RIGHTCMD": { ".expr": "zebra.isFF?224:93" },
+    "SHIFT": 16,
+    "CTRL": 17,
+    "ALT": 18,
+    "CAPS": 20,
+    "CHAR_UNDEFINED": 0
+  },
+
+  "events": { "$zebra.ui.EventManager": [] },
+  "paintManager": { "$zebra.ui.PaintManImpl": [] },
+  "focusManager": { "$zebra.ui.FocusManager": [] },
+
+  "cursorManager": { "$zebra.ui.CursorManager": [] },
+  "commandManager": {
+    "$zebra.ui.CommandManager": [
+      {
+        "common": [
+          {
+            "command": "undo_command",
+            "key": "Ctrl+z"
+          },
+          {
+            "command": "redo_command",
+            "key": "Ctrl+Shift+z"
+          },
+          {
+            "command": "selectAll_command",
+            "key": "Ctrl+A"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [false, 1],
+            "key": "Ctrl+Right"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [false, -1],
+            "key": "Ctrl+Left"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [true, 1],
+            "key": "Ctrl+Shift+Right"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [true, -1],
+            "key": "Ctrl+Shift+Left"
+          },
+          {
+            "command": "nextPage_command",
+            "args": [false, -1],
+            "key": "Ctrl+Up"
+          },
+          {
+            "command": "nextPage_command",
+            "args": [false, 1],
+            "key": "Ctrl+Down"
+          },
+          {
+            "command": "nextPage_command",
+            "args": [true, -1],
+            "key": "Ctrl+Up+Shift"
+          },
+          {
+            "command": "nextPage_command",
+            "args": [true, 1],
+            "key": "Ctrl+Down+Shift"
+          }
+        ],
+        "osx": [
+          {
+            "command": "undo_command",
+            "key": "Cmd+z"
+          },
+          {
+            "command": "redo_command",
+            "key": "Cmd+Shift+z"
+          },
+          {
+            "command": "selectAll_command",
+            "key": "Cmd+A"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [false, 1],
+            "key": "Cmd+Right"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [false, -1],
+            "key": "Cmd+Left"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [true, 1],
+            "key": "Cmd+Shift+Right"
+          },
+          {
+            "command": "nextWord_command",
+            "args": [true, -1],
+            "key": "Cmd+Shift+Left"
+          }
+        ]
+      }
+    ]
+  },
+
+  "popup": {
+    "$zebra.ui.PopupManager": [],
+    "hideTooltipByPress": true
+  },
+
+  "font": { "$Font": ["Arial, sans-serif", 12] },
+  "boldFont": { "$Font": ["'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Verdana, Tahoma, sans-serif", "bold", 10] },
+  "smallFont": { "$Font": ["'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Verdana, Tahoma, sans-serif", 8] },
+
+  "palette": {
+    "white": "#FFFFFF",
+    "black": "#000000",
+    "red": "#ff0000",
+    "FontColor": "#000000",
+    "SecondaryFontColor": "#CECECE",
+    "PrimaryHeaderFontColor": "#FFFFFF",
+    "SecondaryHeaderFontColor":"#000000",
+    "background": { "$Gradient": ["white", "#F0F0F0", 32] },
+    "borderColor": "#AAAAAA",
+    "Secondary": "#808080",
+    "Secondary4": "#A1A1A1",
+    "Secondary3": "#AAAAAA",
+    "Secondary2": "#C7C7C7",
+    "Secondary1": "#CECECE",
+    "gray5": "#D9D9D9",
+    "gray6": "#E4E4E4",
+    "gray7": "#F3F3F3",
+    "Primary": "#2F8D2F",
+    "dateMarker": "rgba(123, 198, 123, 0.5)",
+    "darkGreen0": "#006400",
+    "Primary1": "#7BC67B",
+    "Primary2": "#4FA94F",
+    "Primary3": "#187618",
+    "Primary4": "#055905"
+  },
+
+  "borders": {
+    "raised": { "$zebra.ui.Raised": [] },
+    "sunken": { "$zebra.ui.Sunken": [] },
+    "etched": { "$zebra.ui.Etched": [] },
+    "plain": { "$Border": ["#C5C5C5", 1, 3] },
+    "dot": { "$Dotted": [] }
+  },
+
+  "BaseLayer": {
+    "layout": { "$zebra.layout.RasterLayout": [] },
+    "background": null
+  },
+
+  "RootLayer": {
+    "$inherit": ["BaseLayer"]
+  },
+
+  "WinLayer": {
+    "$inherit": ["BaseLayer"]
+  },
+
+  "zCanvas": {
+    "//": "IT IS IMPORTANT TO HAVE CANVAS CSS PADDING = 0 TO FIX IE9 PROBLEM",
+    "background": "white",
+    "layout": { "$zebra.layout.StackLayout": [] },
+
+    "styles": {
+      "background-color": "@palette.background",
+      "outline": "none",
+      "padding": "0px",
+      "-webkit-user-select": "none",
+      "-ms-user-select": "none",
+      "-moz-user-select": "-moz-none",
+      "user-select": "none",
+      "-khtml-user-select": "none",
+      "-webkit-tap-highlight-color": "rgba(0,0,0,0)",
+      "touch-action": "none",
+      "content-zooming": "none",
+      "touch-callout": "none",
+      "user-drag": "none",
+      "tap-highlight-color": "rgba(0,0,0,0)"
+    },
+
+    "features": [
+      "zebra.ui.MouseWheelSupport"
+    ],
+
+    "kids": [
+      { "$ *zebra.ui.RootLayer": "root" },
+      { "$ *zebra.ui.WinLayer": [] },
+      { "$ *zebra.ui.PopupLayer": [] }
+    ]
+  },
+
+  "pictures": {
+    "zebra": {}
+  },
+
+  "StringRender": {
+    "typeName": "zebra.ui.StringRender",
+    "disabledColor": "white",
+    "color": "@palette.FontColor",
+    "font": "@font"
+  },
+
+  "TextRender": {
+    "typeName": "zebra.ui.TextRender",
+    "disabledColor": "white",
+    "color": "@palette.FontColor",
+    "font": "@font"
+  },
+
+  "PasswordText": {
+    "typeName": "zebra.ui.PasswordText",
+    "$inherit": ["TextRender"]
+  },
+
+  "CompositeEvStatePan": {
+    "typeName": "zebra.ui.CompositeEvStatePan",
+    "layout": { "$FlowLayout": ["center", "center", "horizontal", 2] },
+    "focusMarker": "@borders.dot"
+  },
+
+  "BoldLabel": {
+    "typeName": "zebra.ui.BoldLabel",
+    "font": "@boldFont"
+  },
+
+  "Button": {
+    "typeName": "zebra.ui.Button",
+    "Label": {
+      "typeName": "zebra.ui.Button.Label",
+      "font": { "$Font": ["Arial", 12, "bold"] },
+      "color": "@palette.FontColor",
+      "disabledColor": "white"
+    },
+
+    "layout": { "$FlowLayout": ["center", "center", "horizontal", 2] },
+
+    "background": {
+      "pressed.over": "@palette.Secondary4",
+      "out": { "$Gradient": ["@palette.Secondary1", "@palette.Secondary3"] },
+      "over": { "$Gradient": ["@palette.Primary1", "@palette.Primary3"] },
+      "disabled": "@palette.Secondary2"
+    },
+
+    "border": {
+      "pressed.over": { "$Border": ["@palette.Secondary4", 2, 2] },
+      "out": { "$Border": ["@palette.Secondary3", 1, 2] }
+    },
+
+    "focusMarkerView": null,
+    "padding": 6
+  },
+
+  "Checkbox": {
+    "typeName": "zebra.ui.Checkbox",
+    "Box": {
+      "typeName": "zebra.ui.Checkbox.Box",
+      "preferredSize": [16, 16],
+      "border": "@borders.plain",
+      "background": {
+        "*": { "$Gradient": ["rgb(250, 250, 250)", "rgb(234, 234, 234)"] },
+        "doff": "lightGray",
+        "don": "lightGray"
+      },
+      "view": {
+        "on.out": { "$zebra.ui.CheckboxView": [] },
+        "off.out": { "$View": [] },
+        "off.over": { "$zebra.ui.CheckboxView": ["lightGray"] },
+        "on.over": { "$zebra.ui.CheckboxView": ["red"] },
+        "don": { "$zebra.ui.CheckboxView": ["#AAAAAA"] },
+        "doff": { "$View": [] }
+      }
+    },
+
+    "Label": {
+      "typeName": "zebra.ui.Checkbox.Label",
+      "disabledColor": "@palette.Secondary2"
+    },
+
+    "layout": { "$FlowLayout": ["left", "center", "horizontal", 6] },
+    "border": {
+      "focuson": { "$Border": ["@palette.Primary4", 1, 2] },
+      "focusoff": { "$zebra.ui.View": [] }
+    },
+    "padding": 2
+  },
+
+  "Radiobox": {
+    "$inherit": ["Checkbox"],
+    "typeName": "zebra.ui.Radiobox",
+
+    "Label": {
+      "typeName": "zebra.ui.Radiobox.Label",
+      "disabledColor": "lightGray"
+    },
+
+    "Box": {
+      "typeName": "zebra.ui.Radiobox.Box",
+      "preferredSize": [16, 16],
+      "border": { "$zebra.ui.RoundBorder": ["rgb(197,197,197)", 1] },
+      "background": {
+        "*": { "$Gradient": ["rgb(250, 250, 250)", "rgb(234, 234, 234)"] },
+        "doff": "lightGray",
+        "don": "lightGray"
+      },
+      "view": {
+        "on.out": { "$zebra.ui.RadioView": [] },
+        "off.out": { "$View": [] },
+        "off.over": { "$zebra.ui.RadioView": ["lightGray", "#DDDDDD"] },
+        "on.over": { "$zebra.ui.RadioView": ["#111111", "red"] },
+        "don": { "$zebra.ui.RadioView": ["#AAAAAA", "#AAAAAA"] },
+        "doff": { "$View": [] }
+      }
+    }
+  },
+
+  "BorderPan": {
+    "typeName": "zebra.ui.BorderPan",
+    "Label": {
+      "typeName": "zebra.ui.BorderPan.Label",
+      "font": "@boldFont",
+      "color": "@palette.Secondary4"
+    },
+
+    "border": { "$zebra.ui.TitledBorder": { "$Border": ["@palette.Secondary4", 1, 2] } }
+  },
+
+  "SplitPan": {
+    "typeName": "zebra.ui.SplitPan",
+    "Bar": {
+      "typeName": "zebra.ui.SplitPan.Bar",
+      "border": "@borders.plain",
+      "background": {
+        "*": "white",
+        "over": "rgb(65, 131, 255)",
+        "pressed.*": "red"
+      },
+      "preferredSize": [6, 6]
+    }
+  },
+
+  "Scroll": {
+    "typeName": "zebra.ui.Scroll",
+    "HIncButton": {
+      "typeName": "zebra.ui.Scroll.HIncButton",
+      "view": {
+        "pressed.over": { "$zebra.ui.ArrowView": [2, "@palette.Secondary2"] },
+        "out": { "$zebra.ui.ArrowView": [2, "@palette.Secondary3"] },
+        "over": { "$zebra.ui.ArrowView": [2, "@palette.Secondary4"] },
+        "disabled": { "$zebra.ui.ArrowView": [2, "@palette.Secondary2"] }
+      },
+      "preferredSize": [16, 11],
+      "canHaveFocus": false
+    },
+
+    "HDecButton": {
+      "typeName": "zebra.ui.Scroll.HDecButton",
+      "view": {
+        "pressed.over": { "$zebra.ui.ArrowView": [1, "@palette.Secondary2"] },
+        "out": { "$zebra.ui.ArrowView": [1, "@palette.Secondary3"] },
+        "over": { "$zebra.ui.ArrowView": [1, "@palette.Secondary4"] },
+        "disabled": { "$zebra.ui.ArrowView": [1, "@palette.Secondary2"] }
+      },
+      "preferredSize": [16, 11],
+      "canHaveFocus": false
+    },
+
+    "VIncButton": {
+      "typeName": "zebra.ui.Scroll.VincButton",
+      "view": {
+        "pressed.over": { "$zebra.ui.ArrowView": [8, "@palette.Secondary2"] },
+        "out": { "$zebra.ui.ArrowView": [8, "@palette.Secondary3"] },
+        "over": { "$zebra.ui.ArrowView": [8, "@palette.Secondary4"] },
+        "disabled": { "$zebra.ui.ArrowView": [8, "@palette.Secondary2"] }
+      },
+
+      "preferredSize": [11, 16],
+      "canHaveFocus": false
+    },
+
+    "VDecButton": {
+      "typeName": "zebra.ui.Scroll.VDecButton",
+      "view": {
+        "pressed.over": { "$zebra.ui.ArrowView": [4, "@palette.Secondary2"] },
+        "out": { "$zebra.ui.ArrowView": [4, "@palette.Secondary3"] },
+        "over": { "$zebra.ui.ArrowView": [4, "@palette.Secondary4"] },
+        "disabled": { "$zebra.ui.ArrowView": [4, "@palette.Secondary2"] }
+      },
+
+      "preferredSize": [11, 16],
+      "canHaveFocus": false
+    },
+
+    "VBundle": {
+      "typeName": "zebra.ui.Scroll.VBundle",
+      "padding": 1,
+      "preferredSize": [6, -1],
+      "background": { "$zebra.ui.BunldeView": [] }
+    },
+
+    "HBundle": {
+      "typeName": "zebra.ui.Scroll.HBundle",
+      "padding": 1,
+      "preferredSize": [-1, 6],
+      "background": { "$zebra.ui.BunldeView": [32] }
+    },
+
+    "background": "@palette.Secondary1",
+    "padding": 1,
+    "border": { "$Border": [null, 0, 4] }
+  },
+
+  "?zebra.isTouchable": {
+    "mscroll": { "$zebra.ui.MobileScrollMan": [] }
+  },
+
+  "ScrollPan": {
+    "typeName": "zebra.ui.ScrollPan",
+    "autoHide": { ".expr": "zebra.isTouchable" }
+  },
+
+  "TextField": {
+    "typeName": "zebra.ui.TextField",
+    "HintRender": {
+      "typeName": "zebra.ui.TextField.HintRender",
+      "font": "@font",
+      "color": "@palette.SecondaryFontColor"
+    },
+
+    "border": {
+      "focuson": { "$Border": ["@palette.Primary4", 1, 2] },
+      "focusoff": { "$Border": ["@palette.Secondary", 1, 2] }
+    },
+    "background": "@palette.white",
+    "selectionColor": "@palette.Primary1",
+    "color": "@palette.FontColor",
+    "curW": 1,
+    "cursorView": "@palette.black",
+    "padding": 2
+  },
+
+  "ActiveTextField": { "$inherit": ["TextField"]},
+
+  "TextArea": {
+    "$inherit": ["TextField"],
+    "typeName": "zebra.ui.TextArea"
+  },
+
+  "PassTextField": {
+    "$inherit": ["TextField"],
+    "typeName": "zebra.ui.PassTextField"
+  },
+
+  "Progress": {
+    "typeName": "zebra.ui.Progress",
+    "border": { "$Border": ["rgb(200,200,255)", 1, 3] },
+    "bundleView": "@palette.Secondary1",
+    "padding": 2
+  },
+
+  "Tabs": {
+    "typeName": "zebra.ui.Tabs",
+    "TabView": {
+      "typeName": "zebra.ui.Tabs.TabView",
+      "TabPan": {
+        "typeName": "zebra.ui.Tabs.TabView.TabPan",
+        "layout": { "$FlowLayout": 4 }
+      },
+
+      "background": "@palette.Secondary2",
+      "captionRender": "@StringRender",
+      "fontColor": "@palette.SecondaryHeaderFontColor",
+      "selectedFontColor": "@palette.PrimaryHeaderFontColor",
+      "font": "@boldFont",
+      "selectedFont": "@boldFont"
+    },
+
+    "border": { "$zebra.ui.TitledBorder": { "$Border": ["@palette.Primary4", 2, 3] } },
+    "views": {
+      "tab": { "$zebra.ui.TabBorder": 1 },
+      "tabover": { "$zebra.ui.TabBorder": 2 },
+      "tabon": { "$zebra.ui.TabBorder": 0 },
+      "marker": { "$Border": ["#66CCFF", 1, 3] }
+    },
+    "pageGaps": [2, 2]
+  },
+
+  "BaseList": {
+    "typeName": "zebra.ui.BaseList",
+    "views": {
+      "select": "@palette.Primary2",
+      "top.marker": { "$Border": ["@palette.Primary3", 1, 4] },
+      "marker": "@palette.Primary1"
+    },
+
+    "border": {
+      "focuson": { "$Border": ["@palette.Primary4", 1, 3] },
+      "focusoff": { "$Border": ["@palette.Secondary", 1, 2] }
+    },
+
+    "padding": 0
+  },
+
+  "List": {
+    "typeName": "zebra.ui.List",
+    "$inherit": ["BaseList"],
+    "gap": 4
+  },
+
+  "CompList": {
+    "typeName": "zebra.ui.CompList",
+    "$inherit": ["BaseList"],
+
+    "Label": {
+      "padding": 4
+    },
+
+    "ImageLabel": {
+      "padding": 4
+    },
+
+    "layout": { "$ListLayout": [] }
+  },
+
+  "Combo": {
+    "typeName": "zebra.ui.Combo",
+    "ComboPadPan": {
+      "typeName": "zebra.ui.Combo.ComboPadPan",
+      "border": { "$Border": ["@palette.Primary3", 1, 3] },
+      "background": "#FFFFFF"
+    },
+
+    "ReadonlyContentPan": {
+      "typeName": "zebra.ui.Combo.ReadonlyContentPan",
+      "padding": 0
+    },
+
+    "EditableContentPan": {
+      "typeName": "zebra.ui.Combo.EditableContentPan",
+      "TextField": {
+        "$inherit": ["TextField"],
+
+        "border": null,
+        "background": null,
+        "padding": [0, 0, 0, 0]
+      },
+
+      "padding": 4,
+      "layout": { "$BorderLayout": [0, 0] }
+    },
+
+    "Button": {
+      "typeName": "zebra.ui.Combo.Button",
+      "preferredSize": [16, 16],
+      "view": {
+        "out": { "$zebra.ui.ComboArrowView": [] },
+        "over": { "$zebra.ui.ComboArrowView": ["red"] },
+        "pressed.*": { "$zebra.ui.ComboArrowView": ["blue", true] },
+        "disabled": { "$zebra.ui.ComboArrowView": ["#CCCCCC"] }
+      }
+    },
+
+    "List": {
+      "typeName": "zebra.ui.Combo.List",
+      "$inherit": ["List"],
+      "border": null
+    },
+
+    "padding": [0, 4, 0, 4],
+    "border": {
+      "focuson": { "$Border": ["@palette.Primary4", 1, 2] },
+      "focusoff": { "$Border": ["@palette.Secondary", 1, 2] }
+    },
+    "background": "@palette.white",
+    "layout": { "$BorderLayout": [0, 0] },
+    "selectionView": null
+  },
+
+  "Slider": {
+    "typeName": "zebra.ui.Slider",
+    "border": {
+      "focuson": { "$Border": ["#66CCFF", 1, 3] },
+      "focusoff": { "$View": [] }
+    },
+    "views": {
+      "gauge": { "$Border": "@palette.Secondary2" },
+      "hbundle": { "$Picture": ["@pictures.zebra", 49, 0, 11, 18] },
+      "vbundle": { "$Picture": ["@pictures.zebra", 61, 0, 18, 11] }
+    },
+    "scaleColor": "@palette.Secondary4",
+    "padding": 4
+  },
+
+  "Link": {
+    "typeName": "zebra.ui.Link",
+    "font": "@boldFont",
+    "colors": ["blue", "darkBlue", "black", "blue", "gray"],
+    "canHaveFocus": false
+  },
+
+  "MenuItem": {
+    "typeName": "zebra.ui.MenuItem",
+    "padding": [4, 4, 4, 4],
+
+    "Label": {
+      "typeName": "zebra.ui.MenuItem.Label",
+      "color": "@palette.FontColor",
+      "padding": [0, 0, 0, 0],
+      "font": "@boldFont"
+    },
+
+    "CheckStatePan": {
+      "typeName": "zebra.ui.MenuItem.CheckStatePan",
+      "view": {
+        "on": { "$zebra.ui.StringRender": ["✓", { "$zebra.ui.Font": ["'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Verdana, Tahoma, sans-serif", 16, "bold"] }, "@palette.Secondary4"] },
+        "dis.on": { "$zebra.ui.StringRender": ["✓", { "$zebra.ui.Font": ["'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Verdana, Tahoma, sans-serif", 16, "bold"] }, "@palette.Secondary2"] },
+        "off": null
+      }
+    },
+
+    "SubImage": {
+      "typeName": "zebra.ui.MenuItem.SubImage",
+      "padding": [0, 0, 0, 4],
+      "view": {
+        "arrow": { "$zebra.ui.ArrowView": ["right", "black", 9] },
+        "*": null
+      }
+    }
+  },
+
+  "Menu": {
+    "typeName": "zebra.ui.Menu",
+    "Line": {
+      "padding": 4
+    },
+
+    "MenuItem": {
+      "$inherit": ["MenuItem"],
+      "typeName": "zebra.ui.Menu.MenuItem",
+      "Label": {
+        "$inherit": ["MenuItem.Label"],
+        "typeName": "zebra.ui.Menu.MenuItem.Label"
+      }
+    },
+
+    "border": { "$Border": [] },
+    "background": "rgba(255,255,255, 0.8)",
+    "padding": [4, 0, 4, 0],
+    "views": {
+      "marker": "@palette.Primary1"
+    },
+    "layout": { "$ListLayout": 0 }
+  },
+
+  "Menubar": {
+    "typeName": "zebra.ui.Menubar",
+    "MenuItem": {
+      "$inherit": ["MenuItem"],
+      "typeName": "zebra.ui.Menubar.MenuItem",
+      "padding": [6, 16, 6, 16],
+      "Label": {
+        "$inherit": ["MenuItem.Label"],
+        "typeName": "zebra.ui.Menubar.MenuItem.Label"
+      }
+    },
+
+    "$inherit": ["Menu"],
+
+    "background": [["#DCF0F7", { "$Gradient": ["rgba(255, 255, 255, 0.8)", "rgba(255, 255, 255, 0.0)"] }]],
+    "padding": [0, 0, 0, 0],
+    "layout": { "$FlowLayout": 0 },
+    "views": {
+      "select": { "$Gradient": ["rgb(228,244,252)", "rgb(167,217,245)"] },
+      "marker": { "$Gradient": ["rgb(218,234,242)", "rgb(157,207,235)"] }
+    }
+  },
+
+  "Toolbar": {
+    "typeName": "zebra.ui.Toolbar",
+    "Combo": {
+      "typeName": "zebra.ui.Toolbar.Combo",
+      "background": "@palette.white",
+      "border": { "$Border": "rgb(200,180,200)" },
+      "padding": [1, 4, 1, 1]
+    },
+
+    "ToolPan": {
+      "typeName": "zebra.ui.Toolbar.ToolPan",
+      "border": {
+        "over": { "$Border": ["#32B6E6", 1, 6] },
+        "*": null,
+        "pressed.over": { "$Border": ["#E6563A", 1, 6] }
+      },
+
+      "background": {
+        "over": "#E1F0F5",
+        "*": null,
+        "pressed.over": "#FF8637"
+      }
+    },
+
+    "ImagePan": {
+      "typeName": "zebra.ui.Toolbar.ImagePan",
+      "padding": 4
+    },
+
+    "Checkbox": {
+      "typeName": "zebra.ui.Toolbar.Checkbox",
+      "$inherit": ["Checkbox"],
+      "canHaveFocus": false,
+      "padding": 4,
+      "background": {
+        "on.*": "orange",
+        "off.*": null
+      }
+    },
+
+    "Radiobox": {
+      "typeName": "zebra.ui.Toolbar.Radiobox",
+      "$inherit": ["Radiobox", "Toolbar.Checkbox"]
+    },
+
+    "layout": { "$FlowLayout": ["left", "center", "horizontal", 6] },
+    "border": "@borders.plain",
+    "padding": 4
+  },
+
+  "ExtendablePan": {
+    "typeName": "zebra.ui.ExtendablePan",
+    "Label": {
+      "typeName": "zebra.ui.ExtendablePan.Label",
+      "font": "@boldFont",
+      "color": "@palette.white"
+    },
+
+    "TitlePan": {
+      "typeName": "zebra.ui.ExtendablePan.TitlePan",
+      "padding": 4,
+      "background": { "$Gradient": ["rgb(220,220,220)", "rgb(160,160,160)"] },
+      "layout": { "$FlowLayout": 4 }
+    },
+
+    "TogglePan": {
+      "typeName": "zebra.ui.ExtendablePan.TogglePan",
+      "view": {
+        "off": { "$zebra.ui.tree.TreeSignView": [true, "white", "orange"], "width": 14, "height": 14 },
+        "on": { "$zebra.ui.tree.TreeSignView": [false, "white", "orange"], "width": 14, "height": 14 }
+      }
+    },
+
+    "layout": { "$BorderLayout": [] }
+  },
+
+  "tree": {
+    "typeName": "zebra.ui.tree",
+    "DefViews": {
+      "color": "@palette.Secondary4",
+      "font": "@font"
+    },
+
+    "BaseTree": {
+      "typeName": "zebra.ui.tree.BaseTree",
+      "lineColor": "rgb(65, 131, 215)",
+      "views": {
+        "close": { "$Picture": ["@pictures.zebra", 61, 20, 16, 14, true] },
+        "open": { "$Picture": ["@pictures.zebra", 49, 34, 16, 14, true] },
+        "leaf": { "$Picture": ["@pictures.zebra", 49, 20, 16, 14, true] },
+        "off": { "$zebra.ui.tree.TreeSignView": [] },
+        "on": { "$zebra.ui.tree.TreeSignView": false },
+        "aselect": [["rgb(228, 244, 252)", { "$Border": "rgb(200,180,200)" }]]
+      }
+    },
+
+    "Tree": {
+      "typeName": "zebra.ui.tree.Tree",
+      "$inherit": ["tree.BaseTree"]
+    },
+
+    "CompTree": {
+      "typeName": "zebra.ui.tree.CompTree",
+      "Checkbox": {
+        "$inherit": ["Checkbox"],
+        "typeName": "zebra.ui.tree.CompTree.Checkbox"
+      },
+
+      "Combo": {
+        "$inherit": ["Combo"],
+        "typeName": "zebra.ui.tree.CompTree.Combo"
+      },
+
+      "Label": {
+        "$inherit": ["Label"],
+        "typeName": "zebra.ui.tree.CompTree.Label",
+        "padding": 4
+      },
+
+      "$inherit": ["tree.BaseTree"],
+      "views": {
+        "close": { "$Picture": ["@pictures.zebra", 61, 20, 16, 14, true] },
+        "open": { "$Picture": ["@pictures.zebra", 49, 34, 16, 14, true] },
+        "leaf": { "$Picture": ["@pictures.zebra", 49, 20, 16, 14, true] },
+
+        "off": { "$zebra.ui.tree.TreeSignView": [] },
+        "on": { "$zebra.ui.tree.TreeSignView": false },
+        "iselect": "#A0D9EA",
+        "aselect": "#A0D9EA"
+      }
+    }
+  },
+
+  "grid": {
+    "typeName": "zebra.ui.grid",
+    "DefViews": {
+      "cellBackground": null,
+      "font": "@font",
+      "color": "#4a4a4a"
+    },
+
+    "DefEditors": {
+      "typeName": "zebra.ui.grid.DefEditors",
+      "TextField": {
+        "$inherit": ["TextField"],
+        "typeName": "zebra.ui.grid.DefEditors.TextField",
+        "border": { "$Border": "blue" },
+        "background": null
+      },
+
+      "Combo": {
+        "$inherit": ["Combo"],
+        "typeName": "zebra.ui.grid.DefEditors.Combo",
+        "border": null
+      },
+
+      "Checkbox": {
+        "$inherit": ["Checkbox"],
+        "typeName": "zebra.ui.grid.DefEditors.Checkbox",
+        "layout": { "$FlowLayout": ["center", "center"] },
+        "border": { "$Border": "blue" }
+      }
+    },
+
+    "BaseGridCaption": {
+      "typeName": "zebra.ui.grid.BaseGridCaption",
+      "border": { "$Border": "@palette.Primary3" },
+      "background": "@palette.Primary2",
+      "lineColor":"@palette.Primary3"
+    },
+
+    "CompGridCaption": {
+      "$inherit": ["grid.BaseGridCaption"],
+      "typeName": "zebra.ui.grid.CompGridCaption",
+
+      "StatusPan": {
+        "typeName": "zebra.ui.grid.CompGridCaption.StatusPan",
+        "view": {
+          "*": { "$zebra.ui.ArrowView": ["left", "rgb(255, 153, 0)"], "width": 9, "height": 9 },
+          "ascent": { "$zebra.ui.ArrowView": ["top", "rgb(255, 153, 0)"] },
+          "descent": { "$zebra.ui.ArrowView": ["bottom", "rgb(255, 153, 0)"] }
+        }
+      },
+
+      "TitlePan": {
+        "typeName": "zebra.ui.grid.CompGridCaption.TitlePan",
+        "padding": 6
+      },
+
+      "Link": {
+        "typeName": "zebra.ui.grid.CompGridCaption.Link",
+        "font": "@boldFont",
+        "colors": ["orange", "red", "black", "blue", "gray"]
+      },
+
+      "background": "@palette.Primary2",
+      "lineColor": "@palette.Primary"
+    },
+
+    "GridCaption": {
+      "$inherit": ["grid.BaseGridCaption"],
+      "typeName": "zebra.ui.grid.GridCaption",
+
+      "padding": 4,
+      "font": "@boldFont",
+      "fontColor": "rgb(255, 255, 255)"
+    },
+
+    "Grid": {
+      "typeName": "zebra.ui.grid.Grid",
+      "CornerPan": {
+        "$inherit": ["grid.BaseGridCaption"],
+        "typeName": "zebra.ui.grid.Grid.CornerPan"
+      },
+
+      "views": {
+        "onselection": "@palette.Secondary2",
+        "offselection": "@palette.Secondary2"
+      },
+
+      "lineColor": "@palette.Secondary2"
+    }
+  },
+
+  "Tooltip": {
+    "typeName": "zebra.ui.Tooltip",
+    "borderColor": "gray",
+    "borderWidth": 1,
+
+    "Label": {
+      "typeName": "zebra.ui.Tooltip.Label",
+      "font": "@font",
+      "color": "gray",
+      "padding": 2
+    },
+
+    "background": "yellow",
+    "layout": { "$FlowLayout": ["center", "top"] }
+  },
+
+  "Window": {
+    "typeName": "zebra.ui.Window",
+    "CaptionPan": {
+      "typeName": "zebra.ui.Window.CaptionPan",
+      "layout": { "$BorderLayout": [] },
+      "background": {
+        "active": { "$zebra.ui.WindowTitleView": [] },
+        "inactive": { "$zebra.ui.WindowTitleView": "#E0F4FF" }
+      },
+      "padding": 8
+    },
+
+    "ContentPan": {
+      "typeName": "zebra.ui.Window.ContentPan",
+      "layout": { "$BorderLayout": [] }
+    },
+
+    "TitleLab": {
+      "typeName": "zebra.ui.Window.TitleLab",
+      "font": { "$Font": ["Verdana", 16] },
+      "color": "@palette.white"
+    },
+
+    "StatusPan": {
+      "typeName": "zebra.ui.Window.StatusPan",
+      "layout": { "$FlowLayout": ["right", "center"] }
+    },
+
+    "SizerIcon": {
+      "typeName": "zebra.ui.Window.SizerIcon",
+      "padding": [0, 0, 1, 2],
+      "image": { "$Picture": ["@pictures.zebra", 0, 32, 9, 8] }
+    },
+
+    "Icon": {
+      "typeName": "zebra.ui.Window.Icon",
+      "visible": false
+    },
+
+    "Button": {
+      "typeName": "zebra.ui.Window.Button"
+    },
+
+    "border": {
+      "active": { "$Border": ["#33AAFF", 2, 8], "gap": 2 },
+      "inactive": { "$Border": ["lightGray", 2, 8], "gap": 2 }
+    },
+    "background": "#ECECEC",
+    "padding": [0, 0, 2, 0],
+    "buttons": {
+      "close": {
+        "over": { "$Picture": ["@pictures.zebra", 16, 0, 16, 16] },
+        "out": { "$Picture": ["@pictures.zebra", 0, 0, 16, 16] },
+        "pressed": { "$Picture": ["@pictures.zebra", 32, 0, 16, 16] }
+      }
+    }
+  },
+
+  "StatusBar": {
+    "typeName": "zebra.ui.StatusBar",
+    "borderView": "etched"
+  },
+
+  "HtmlElement": {
+    "typeName": "zebra.ui.HtmlElement",
+    "styles": {
+      "margin": "0px",
+      "border": "none",
+      "borderWidth": "0px",
+      "boxSizing": "border-box",
+      "-moz-box-sizing": "border-box",
+      "display": "block",
+      "backgroundImage": "none",
+      "backgroundColor": "transparent",
+      "position": "absolute",
+      "zIndex": 10,
+      "visibility": "hidden",
+      "boxShadow": "none",
+      "-moz-box-shadow": "none",
+      "isIE:overflow": "hidden"
+    },
+
+    "border": null
+  },
+
+  "HtmlContent": {
+    "$inherit": ["TextField", "HtmlElement"],
+    "typeName": "zebra.ui.HtmlContent"
+  },
+
+  "HtmlTextInput": {
+    "$inherit": ["TextField", "HtmlElement"],
+    "typeName": "zebra.ui.HtmlTextInput",
+    "style": ["outline", "none"],
+    "padding": [4, 4, 4, 4]
+  },
+
+  "HtmlTextField": {
+    "$inherit": ["HtmlTextInput"],
+    "typeName": "zebra.ui.HtmlTextField"
+  },
+
+  "HtmlTextArea": {
+    "$inherit": ["HtmlTextInput"],
+    "typeName": "zebra.ui.HtmlTextArea",
+    "resizeable": false
+  },
+
+  "date": {
+    "typeName": "zebra.ui.date",
+    "namesOfWeekDays": [
+      { "name": "Sunday", "value": "Sun", "isWeekend": true, "color": "#a1a1a1" },
+      { "name": "Monday", "value": "Mon", "color": "#555555" },
+      { "name": "Tuesday", "value": "Tue", "color": "#555555" },
+      { "name": "Wednesday", "value": "Wed", "color": "#555555" },
+      { "name": "Thursday", "value": "Thu", "color": "#555555" },
+      { "name": "Friday", "value": "Fri", "color": "#555555" },
+      { "name": "Saturday", "value": "Sat", "isWeekend": true, "color": "#a1a1a1" }
+    ],
+
+    "months": [
+      [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    ],
+
+    "DaysGrid": {
+      "typeName": "zebra.ui.date.DaysGrid",
+      "GridCaption": {
+        "typeName": "zebra.ui.date.DaysGrid.GridCaption",
+        "Label": {
+          "typeName": "zebra.ui.date.DaysGrid.GridCaption.Label",
+          "padding": [4, 2, 4, 2],
+          "font": { "$zebra.ui.Font": ["arial, sans-serif", "10", "bold"] }
+        },
+        "lineColor": "#e5e5e5",
+        "padding": [4, 0, 4, 0],
+        "border": null,
+        "background": null,
+        "namesOfWeekDays": ["@date.namesOfWeekDays"]
+      },
+
+      "ViewProvider": {
+        "typeName": "zebra.ui.date.DaysGrid.ViewProvider",
+        "decoration": {
+          "today": {
+            "label": {
+              "border": "",
+              "bg": "",
+              "font": "",
+              "color": ""
+            },
+            "cellColor": "",
+            "icon": ""
+          },
+
+          "nextMonth": {
+
+          },
+
+
+          "prevMonth": {
+
+          },
+
+          "currentMonth": {
+
+          },
+
+          "holiday": {
+
+          }
+
+        },
+
+
+        "ShownMonthDayLab": {
+          "typeName": "zebra.ui.date.DaysGrid.ViewProvider.ShownMonthDayLab",
+          "color": "#555555",
+          "font": { "$zebra.ui.Font": ["arial, sans-serif", "16", "bold"] },
+          "padding": 8
+        },
+
+        "PrevMonthDayLab": {
+          "typeName": "zebra.ui.date.DaysGrid.ViewProvider.PRevMonthDayLab",
+          "color": "#c0c0c0",
+          "font": { "$zebra.ui.Font": ["arial, sans-serif", "16"] },
+          "padding": 8
+        },
+
+        "NextMonthDayLab": {
+          "typeName": "zebra.ui.date.DaysGrid.ViewProvider.NextMonthDayLab",
+          "color": "#c0c0c0",
+          "font": { "$zebra.ui.Font": ["arial, sans-serif", "16"] },
+          "padding": 8
+        }
+      },
+
+      "paintNetOnCaption": true,
+      "background": "#ffffff",
+      "usePsMetric": true,
+      "drawSideLines": false,
+      "drawLines": [false, true],
+      "lineColor": "#e5e5e5",
+      "navigationMode": "cell",
+      "defCellAlignments": ["none", "center"],
+      "views": {
+        "offmarker": "rgba(20, 175, 230, 0.15)",
+        "marker": "rgba(20, 175, 230, 0.15)",
+        "notSelectableMarker": { "$zebra.ui.Border": null },
+        "onselection": "rgba(20, 175, 230, 0.23)",
+        "offselection": "rgba(20, 175, 230, 0.23)"
+      },
+
+      "selDayBackground": "@palette.black"
+    },
+
+    "Calendar": {
+      "typeName": "zebra.ui.date.Calendar",
+      "MonthsCombo": {
+        "typeName": "zebra.ui.date.Calendar.MonthsCombo",
+        "Label": {
+          "typeName": "zebra.ui.date.Calendar.MonthsCombo.Label",
+          "color": "#555555",
+          "font": { "$zebra.ui.Font": ["arial, sans-serif", "14", "bold"] }
+        },
+
+        "CompList": {
+          "typeName": "zebra.ui.date.Calendar.CompList",
+          "Label": {
+            "typeName": "zebra.ui.date.Calendar.CompList.Label",
+            "color": "#555555",
+            "font": { "$zebra.ui.Font": ["arial, sans-serif", "12"] },
+            "padding": [2, 0, 2, 0]
+          },
+          "border": null,
+          "background": null,
+          "titleColor": "#555555",
+          "padding": 2,
+          "views": {
+            "select": null,
+            "top.marker": { "$Border": null },
+            "marker": "#dedede"
+          },
+          "layout": { "$ListLayout": [] }
+        },
+
+        "id": "monthsCombo",
+        "months": "@date.months",
+        "color": "#555555",
+        "padding": 2,
+        "background": null,
+        "layout": { "$zebra.layout.BorderLayout": [] },
+        "preferredSize": [160, 20]
+      },
+
+      "YearField": {
+        "typeName": "zebra.ui.date.Calendar.YearField",
+        "id": "yearField",
+        "font": { "$zebra.ui.Font": ["arial, sans-serif", "14", "bold"] },
+        "color": "#555555",
+        "padding": [0, 0, 0, 8],
+        "editable": false,
+        "background": null,
+        "curView": null,
+        "selectionColor": null
+      },
+
+      "InfoPan": {
+        "typeName": "zebra.ui.date.Calendar.InfoPan",
+        "background": "#d2d2d2",
+        "padding": 8
+      },
+
+      "ArrowButton": {
+        "typeName": "zebra.ui.date.Calendar.ArrowButton",
+        "disabledColor": "@palette.Secondary3",
+        "arrowColors": ["#666666", "#19adef", "#666666"],
+        "arrowDirection": "left",
+        "preferredSize": [12, 12]
+      },
+
+      "LeftArrowButton": {
+        "$inherit": ["date.Calendar.ArrowButton"],
+        "typeName": "zebra.ui.date.Calendar.LeftArrowButton",
+        "id": "leftButton",
+        "padding": [0, 0, 0, 4]
+      },
+
+      "RightArrowButton": {
+        "$inherit": ["date.Calendar.ArrowButton"],
+        "typeName": "zebra.ui.date.Calendar.RightArrowButton",
+        "id": "rightButton",
+        "arrowDirection": "right",
+        "padding": [0, 4, 0, 0]
+      },
+
+      "TopArrowButton": {
+        "$inherit": ["date.Calendar.ArrowButton"],
+        "typeName": "zebra.ui.date.Calendar.TopArrowButton",
+        "id": "topButton",
+        "arrowDirection": "top",
+        "preferredSize": [10, 10],
+        "padding": [0, 0, 2, 0]
+
+      },
+
+      "BottomArrowButton": {
+        "$inherit": ["date.Calendar.ArrowButton"],
+        "typeName": "zebra.ui.date.Calendar.BottomArrowButton",
+        "id": "bottomButton",
+        "arrowDirection": "bottom",
+        "preferredSize": [10, 10],
+        "padding": [2, 0, 0, 0]
+      },
+
+      "DotButton": {
+        "typeName": "zebra.ui.date.Calendar.DotButton",
+        "id": "dotButton",
+        "enabled": false,
+        "border": { "$zebra.ui.RoundBorder": [null, 0] },
+        "background": {
+          "out": "#666666",
+          "over": "#19adef",
+          "pressed.over": "@palette.black",
+          "disabled": "@palette.Secondary3"
+        },
+        "preferredSize": [10, 10]
+      },
+
+      "border": "plain"
+    },
+
+    "DateField": {
+      "typeName": "zebra.ui.date.DateField",
+      "TextField": {
+        "typeName": "zebra.ui.date.DateField.TextField",
+        "border": null,
+        "editable": false
+      },
+
+      "Button": {
+        "typeName": "zebra.ui.date.DateField.Button",
+        "border": null,
+        "padding": 4
+      },
+
+      "Calendar": {
+        "MonthsCombo": {
+          "$inherit": ["date.Calendar.MonthsCombo"],
+          "typeName": "zebra.ui.date.DateField.Calendar.MonthsCombo"
+        },
+
+        "$inherit": ["date.Calendar"],
+        "typeName": "zebra.ui.date.DateField.Calendar"
+      },
+
+      "border": { "$zebra.ui.Border": "@palette.Secondary1" }
+    }
+  }
+}

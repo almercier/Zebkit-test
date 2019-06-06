@@ -1,1 +1,1 @@
-Zebkit-test
+This repo is used to attempt to replicate an artifacting issue with zebra/zebkit on non-int scaling ratios.

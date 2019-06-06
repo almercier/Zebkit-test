@@ -18,8 +18,8 @@ zebra.ready(function() {
     //styling
     panel.setBackground('#333333');
     panel.setPadding(20);
-    button.setBackground({"out": "transparent","over": "black", "pressed.over": "darkgray"});
-    button.setBorder({"out": "transparent", "over": "black", "pressed.over": "darkgray"});
+    button.setBackground({"out": "transparent", "over": "transparent", "pressed.over": "transparent"});
+    button.setBorder({"out": new ui.Border('#333333', 1),"over": new ui.Border('black', 1),"pressed.over": new ui.Border('darkgray', 1)});
 });
 
 let iDevices = [

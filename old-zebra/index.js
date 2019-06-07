@@ -5,8 +5,8 @@ zebra.ready(function() {
     var panel = new ui.Panel(new layout.BorderLayout);
     root.properties({
         layout : new layout.BorderLayout(6, 6),
-        border : new ui.Border(),
-        padding: 8,
+        border : null,
+        padding: 0,
         kids: {
             CENTER: panel
         }

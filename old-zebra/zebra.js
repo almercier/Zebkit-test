@@ -8988,21 +8988,21 @@
 		// and the area that has to be filled. IE11/10 have a bug
 		// that triggers filling more space than it is restricted
 		// with clip
-		if (g.$states != null) {
-			var t = g.$states[g.$curState],
-				rx = x > t.x ? x : t.x,
-				rw = Math.min(x + w, t.x + t.width) - rx;
-
-			if (rw > 0) {
-				var ry = y > t.y ? y : t.y,
-				rh = Math.min(y + h, t.y + t.height) - ry;
-
-				if (rh > 0) g.fillRect(rx, ry, rw, rh);
-			}
-		}
-		else {
+		// if (g.$states != null) {
+		// 	var t = g.$states[g.$curState],
+		// 		rx = x > t.x ? x : t.x,
+		// 		rw = Math.min(x + w, t.x + t.width) - rx;
+		//
+		// 	if (rw > 0) {
+		// 		var ry = y > t.y ? y : t.y,
+		// 		rh = Math.min(y + h, t.y + t.height) - ry;
+		//
+		// 		if (rh > 0) g.fillRect(rx, ry, rw, rh);
+		// 	}
+		// }
+		// else {
 			g.fillRect(x, y, w, h);
-		}
+		// }
 	};
 
 	rgb.prototype.getPreferredSize = function () {
@@ -11449,11 +11449,30 @@
 										y < da.y ||
 										x + w > da.x + da.width ||
 										y + h > da.y + da.height) {
-										MB.unite(da.x, da.y, da.width, da.height, x, y, w, h, da);
+                                        // !!!
+                                        // speed up to comment method call
+                                        //MB.unite(da.x, da.y, da.width, da.height, x, y, w, h, da);
+                                        var dax = da.x, day = da.y;
+                                        if (da.x > x) {
+                                            da.x = x;
+                                        }
+                                        if (da.y > y) {
+                                            da.y = y;
+                                        }
+                                        da.width  = Math.max(dax + da.width,  x + w) - da.x;
+                                        da.height = Math.max(day + da.height, y + h) - da.y;
 									}
 								}
 								else {
-									MB.intersection(0, 0, canvas.width, canvas.height, x, y, w, h, da);
+                                    // !!!
+                                    // not necessary to call the method since we have already normalized
+                                    // repaint coordinates and sizes
+                                    //!!! MB.intersection(0, 0, canvas.width, canvas.height, x, y, w, h, da);
+
+                                    da.x      = x;
+                                    da.width  = w;
+                                    da.y      = y;
+                                    da.height = h;
 								}
 							}
 						}
@@ -11527,7 +11546,7 @@
                                 // inside paintComponent method.
                                 canvas.$da.width = -1;
 
-                                pkg.paintManager.paintComponent(g, canvas);
+                                pkg.paintManager.paintComponent(g, canvas.root);
 
 								g.restore();
 							}
@@ -11560,72 +11579,72 @@
 	 */
 	pkg.PaintManImpl = Class(pkg.PaintManager, [
 		function $prototype() {
-			this.paintComponent = function (g, c) {
+			this.paintComponent = function (g, comp) {
                 var ts  = g.$states[g.$curState]; // current state including clip area
-                if (ts.width  > 0  && ts.height > 0  && c.isVisible === true) {
+                if (ts.width  > 0  && ts.height > 0  && comp.isVisible === true) {
                     // !!! TODO: WTF
                     // calling setSize in the case of raster layout doesn't
                     // cause hierarchy layout invalidation
-                    if (this.isLayoutValid === false) {
-                        this.validate();
+                    if (comp.isLayoutValid === false) {
+						comp.validate();
                     }
 
-                    var b = c.bg != null && (c.parent == null || c.bg != c.parent.bg),
+                    var b = comp.bg != null && (comp.parent == null || comp.bg != comp.parent.bg),
                         borderPainted = false;
 
-                    var x = 0, y = 0, w = c.width, h = c.height;
+                    var x = 0, y = 0, w = comp.width, h = comp.height;
 
                     // if component defines shape and has update, [paint?] or background that
                     // differs from parent background try to apply the shape and than build
                     // clip from the applied shape
-                    if (c.border != null && c.border.outline != null &&
-                        (b || c.update != null) &&
-                        c.border.outline(g, x, y, w, h, c)) {
+                    if (comp.border != null && comp.border.outline != null &&
+                        (b || comp.update != null) &&
+                        comp.border.outline(g, x, y, w, h, comp)) {
 
                         // The outline path will be the clipping path
                         g.save();
                         g.clip();
 
                         if (b) {
-                            c.bg.paint(g, x, y, w, h, c);
+                            comp.bg.paint(g, x, y, w, h, comp);
                         }
-                        if (c.update != null) {
-                            c.update(g);
+                        if (comp.update != null) {
+                            comp.update(g);
                         }
 
                         g.restore();
 
                         // Paint the border after the background is painted
-                        if (c.border.activeView == null ? c.border.width !== 0 : c.border.activeView.width !== 0) {
-                            c.border.paint(g, x, y, w, h, c);
+                        if (comp.border.activeView == null ? comp.border.width !== 0 : comp.border.activeView.width !== 0) {
+                            comp.border.paint(g, x, y, w, h, comp);
                         }
                         borderPainted = true;
                     }
 
                     else {
                         if (b) {
-                            c.bg.paint(g, x, y, w, h, c);
+                            comp.bg.paint(g, x, y, w, h, comp);
                         }
-                        if (c.update != null) {
-                            c.update(g);
+                        if (comp.update != null) {
+                            comp.update(g);
                         }
                     }
 
-                    if (c.border != null && borderPainted == false && (c.border.activeView == null ? c.border.width !== 0 : c.border.activeView.width !== 0)) {
-                        c.border.paint(g, x, y, w, h, c);
+                    if (comp.border != null && borderPainted == false && (comp.border.activeView == null ? comp.border.width !== 0 : comp.border.activeView.width !== 0)) {
+                        comp.border.paint(g, x, y, w, h, comp);
                     }
 
-                    if (c.paint != null) {
-                        var left = c.getLeft(),
-                            top = c.getTop(),
-                            bottom = c.getBottom(),
-                            right = c.getRight();
+                    if (comp.paint != null) {
+                        var left = comp.getLeft(),
+                            top = comp.getTop(),
+                            bottom = comp.getBottom(),
+                            right = comp.getRight();
 
                         if (left > 0 || right > 0 || top > 0 || bottom > 0) {
                             var tsxx = ts.x + ts.width,
                                 tsyy = ts.y + ts.height,
-                                cright     = c.width - right,
-                                cbottom    = c.height - bottom,
+                                cright     = comp.width - right,
+                                cbottom    = comp.height - bottom,
                                 x1         = (ts.x > left ? ts.x : left), // max
                                 y1         = (ts.y > top  ? ts.y : top),  // max
                                 w1         = (tsxx < cright  ? tsxx : cright)  - x1, // min
@@ -11634,27 +11653,27 @@
                             if (x1 !== ts.x || y1 !== ts.y || w1 !== ts.width || h1 !== ts.height) {
                                 g.save();
                                 g.clipRect(x1, y1, w1, h1);
-                                c.paint(g);
-                                this.paintChildComponents(g, c, false);
+                                comp.paint(g);
+                                this.paintChildComponents(g, comp, false);
                                 g.restore();
                             }
                             else {
                                 // It has been checked that the optimization works for some components
-                                c.paint(g);
-                                this.paintChildComponents(g, c, true);
+                                comp.paint(g);
+                                this.paintChildComponents(g, comp, true);
                             }
                         }
                         else {
-                            c.paint(g);
-                            this.paintChildComponents(g, c, true);
+                            comp.paint(g);
+                            this.paintChildComponents(g, comp, true);
                         }
                     }
                     else {
-                        this.paintChildComponents(g, c, true);
+                        this.paintChildComponents(g, comp, true);
                     }
 
-                    if (c.paintOnTop !== undefined) {
-                        c.paintOnTop(g);
+                    if (comp.paintOnTop !== undefined) {
+                        comp.paintOnTop(g);
                     }
                 }
             };
@@ -11666,25 +11685,25 @@
              * the parent component paddings.
              * @method paintChildComponents
              */
-            this.paintChildComponents = function(g, c, clipChild) {
+            this.paintChildComponents = function(g, comp, clipChild) {
                 var ts = g.$states[g.$curState]; // current state including clip area
 
-                if (ts.width > 0 && ts.height > 0 && c.kids.length > 0) {
+                if (ts.width > 0 && ts.height > 0 && comp.kids.length > 0) {
                     var shouldClip = false,
                         tsxx       = ts.x + ts.width,
                         tsyy       = ts.y + ts.height;
 
                     if (clipChild === true) {
-                        var left   = c.getLeft(),
-                            top    = c.getTop(),
-                            bottom = c.getBottom(),
-                            right  = c.getRight();
+                        var left   = comp.getLeft(),
+                            top    = comp.getTop(),
+                            bottom = comp.getBottom(),
+                            right  = comp.getRight();
 
                         if (left > 0 || right > 0 || top > 0 || bottom > 0) {
                             var x1         = (ts.x > left ? ts.x : left), // max
                                 y1         = (ts.y > top  ? ts.y : top),  // max
-                                cright     = c.width - right,
-                                cbottom    = c.height - bottom,
+                                cright     = comp.width - right,
+                                cbottom    = comp.height - bottom,
                                 w1         = (tsxx < cright  ? tsxx : cright)  - x1, // min
                                 h1         = (tsyy < cbottom ? tsyy : cbottom) - y1; // min
 
@@ -11697,8 +11716,8 @@
                         }
                     }
 
-                    for(var i = 0; i < c.kids.length; i++) {
-                        var kid = c.kids[i];
+                    for(var i = 0; i < comp.kids.length; i++) {
+                        var kid = comp.kids[i];
                         // ignore invisible components and components that declare own 2D context
                         if (kid.isVisible === true && kid.$context === undefined) {
                             // calculate if the given component area has intersection
@@ -13375,8 +13394,8 @@
 					poffy = this.offy,
 					ba = this.canvas.getBoundingClientRect();
 
-				this.offx = Math.round(ba.left) + pkg.$measure(this.canvas, "padding-left") + window.pageXOffset;
-				this.offy = Math.round(ba.top) + pkg.$measure(this.canvas, "padding-top") + window.pageYOffset;
+				this.offx = Math.round(ba.left + pkg.$measure(this.canvas, "border-left-width") + pkg.$measure(this.canvas, "padding-left") + window.pageXOffset);
+				this.offy = Math.round(ba.top + pkg.$measure(this.canvas, "border-top-width") + pkg.$measure(this.canvas, "padding-top") + window.pageYOffset);
 
 				if (this.offx != poffx || this.offy != poffy) {
 					// force to fire component re-located event
@@ -14289,7 +14308,7 @@
 					}
 
 					g.translate(cx, cy);
-					pkg.paintManager.paint(g, c);
+					pkg.paintManager.paintComponent(g, c);
 					g.translate(-cx, -cy);
 					if (prevW >= 0) {
 						c.setSize(prevW, prevH);
